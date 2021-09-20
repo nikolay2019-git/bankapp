@@ -97,3 +97,21 @@ func Total(cards []types.Card) types.Money {
 	}
 	return sum
 }
+
+func PaymentSources(cards []types.Card) []types.PaymentSource {
+	// TODO
+	// В источники оплат попадают следующие карты: баланс выше 0 и активна
+	paymentSource := []types.PaymentSource{}
+	for _, card := range cards {
+		if card.Balance > 0 {
+			if card.Active {
+				paymentSource = append(paymentSource, types.PaymentSource{
+					Type:    "card",
+					Number:  string(card.PAN),
+					Balance: card.Balance,
+				})
+			}
+		}
+	}
+	return paymentSource
+}
